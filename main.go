@@ -146,6 +146,7 @@ func main() {
 			p := strings.SplitN(opts.header, ":", 2)
 			reqHeader.Set(p[0], p[1])
 		}
+		d.TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
 		conn, _, err := d.Dial(opts.target, reqHeader)
 		if err != nil {
 			fmt.Println(err)
