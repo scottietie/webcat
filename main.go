@@ -85,6 +85,7 @@ type runtimeOptions struct {
 	fingerprint string
 	// TODO: make list
 	header string
+	secure bool
 }
 
 func main() {
@@ -95,6 +96,7 @@ func main() {
 	pflag.StringVarP(&opts.listen, "listen", "l", "", "Set listen address")
 	pflag.StringVarP(&opts.listenPath, "path", "p", "/ws", "Set uri path")
 	pflag.StringVarP(&opts.target, "target", "t", "-", "Set target to proxy or connect to")
+	pflag.BoolVarP(&opts.secure, "secure", "s", false, "Only allow insecure certificate")
 	pflag.Parse()
 
 	if opts.listen != "" {
@@ -146,7 +148,10 @@ func main() {
 			p := strings.SplitN(opts.header, ":", 2)
 			reqHeader.Set(p[0], p[1])
 		}
-		d.TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
+		if opts.secure != true {
+			d.TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
+			print("test insecure")
+		}
 		conn, _, err := d.Dial(opts.target, reqHeader)
 		if err != nil {
 			fmt.Println(err)
