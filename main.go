@@ -96,7 +96,7 @@ func main() {
 	pflag.StringVarP(&opts.listen, "listen", "l", "", "Set listen address")
 	pflag.StringVarP(&opts.listenPath, "path", "p", "/ws", "Set uri path")
 	pflag.StringVarP(&opts.target, "target", "t", "-", "Set target to proxy or connect to")
-	pflag.BoolVarP(&opts.secure, "secure", "s", false, "Only allow insecure certificate")
+	pflag.BoolVarP(&opts.secure, "secure", "s", false, "Only allow secure certificate")
 	pflag.Parse()
 
 	if opts.listen != "" {
