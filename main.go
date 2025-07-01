@@ -150,7 +150,6 @@ func main() {
 		}
 		if opts.secure != true {
 			d.TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
-			print("test insecure")
 		}
 		conn, _, err := d.Dial(opts.target, reqHeader)
 		if err != nil {
