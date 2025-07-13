@@ -13,7 +13,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gorilla/mux"
+	// "github.com/gorilla/mux"
 	"github.com/gorilla/websocket"
 	"github.com/spf13/pflag"
 )
@@ -94,7 +94,7 @@ func main() {
 	pflag.IntVarP(&opts.keepalive, "keepalive", "k", 0, "Set ping interval in seconds")
 	pflag.StringVarP(&opts.fingerprint, "fingerprint", "f", "", "Set SHA-256 fingerprint of certificate")
 	pflag.StringVarP(&opts.listen, "listen", "l", "", "Set listen address")
-	pflag.StringVarP(&opts.listenPath, "path", "p", "/ws", "Set uri path")
+	// pflag.StringVarP(&opts.listenPath, "path", "p", "/ws", "Set uri path")
 	pflag.StringVarP(&opts.target, "target", "t", "-", "Set target to proxy or connect to")
 	pflag.BoolVarP(&opts.secure, "secure", "s", false, "Only allow secure certificate")
 	pflag.Parse()
@@ -104,14 +104,16 @@ func main() {
 			target:       opts.target,
 			pingInterval: time.Duration(opts.keepalive) * time.Second,
 		}
-		r := mux.NewRouter()
-		r.HandleFunc(opts.listenPath, p.handleWS)
+		// r := mux.NewRouter()
+		// r.HandleFunc(opts.listenPath, p.handleWS)
+
 		srv := &http.Server{
 			Addr:         opts.listen,
 			WriteTimeout: time.Second * 15,
 			ReadTimeout:  time.Second * 15,
 			IdleTimeout:  time.Second * 60,
-			Handler:      r,
+			// Handler:      r,
+			Handler:	  http.HandlerFunc(p.handleWS),
 		}
 		if err := srv.ListenAndServe(); err != nil {
 			fmt.Println(err)
